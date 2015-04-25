@@ -12,7 +12,7 @@ makeCacheMatrix <- function(matrixObject = matrix()) {
 	
 	#Populating the matrix with values from object y and re-initializing inverse 
 	#to NULL since the matrix has been modified
-	setMatrix <- function(y){
+	setMatrix <- function(y) {
 		matrixObject <<- y
 		matrixInverse <<- NULL
 	}
@@ -36,8 +36,30 @@ makeCacheMatrix <- function(matrixObject = matrix()) {
 
 ## cacheSolve computes the inverse of the matrix returned by makeCacheMatrix.
 ## If the inverse has already been calculated and the matrix hasn't been changed,
-## then cacheSikve retrieves the inverse from the cache.
+## then cacheSolve retrieves the inverse from the cache.
 
-cacheSolve <- function(x, ...) {
-## Return a matrix that is the inverse of 'x'
-}
+cacheSolve <- function(matrixObject, ...) {
+	#Retrieve the inverse of the matrix using the getInverse function associated with the matrix
+	matrixInverse <- matrixObject$getInverse()
+	
+	#If the inverse exists in the cache, return the inverse and exit cacheSolve 
+	if(!is.null(matrixInverse) {
+		message("Retrieving the cached matrix inverse")
+		return(matrixInverse)
+	}
+	
+	##If inverse hasn't been cached yet, calculate and cache it:
+	
+	#Retrieving matrix values and storing it in an object called data
+	data <-  matrixObject$getMatrix()
+	
+	#Calculating the inverse of matrix using the in-built function solve
+	matrixInverse <- solve(data, ...)
+	
+	#Caching the inverse using setInverse function
+	matrixObject$setInverse(matrixInverse)
+	
+	#Return the inverse
+	matrixInverse
+}	
+	
